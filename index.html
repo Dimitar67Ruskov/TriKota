@@ -23,14 +23,21 @@
             width: 300px;
             border-radius: 15px;
             margin-top: 10px;
+            transition: transform 0.5s ease;
         }
 
+        header img:hover {
+            transform: scale(1.05) rotate(-3deg);
+        }
+
+        /* FIXED NAVIGATION BAR */
         nav {
-            background-color: #ff9900;
-            padding: 15px;
+            background-color: #ff9900; /* непрозрачен фон */
+            padding: 25px 50px; /* повече padding */
             text-align: center;
             position: sticky;
             top: 0;
+            z-index: 1000; /* да е над съдържанието */
         }
 
         nav a {
@@ -42,18 +49,39 @@
             border-radius: 8px;
             font-weight: bold;
             display: inline-block;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         nav a:hover {
             background-color: #ffe066;
+            transform: scale(1.1);
         }
 
         section {
             padding: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         h2 {
             color: #ff6600;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 1s forwards;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .characters {
@@ -68,11 +96,21 @@
             padding: 15px;
             width: 280px;
             text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .character:hover {
+            transform: translateY(-5px) scale(1.03);
         }
 
         .character img {
             width: 200px;
             border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .character img:hover {
+            transform: translateY(-10px) scale(1.05);
         }
 
         footer {
@@ -136,8 +174,6 @@
     </p>
 </section>
 
-
-
 <section id="characters">
     <h2>Главни герои</h2>
 
@@ -199,6 +235,25 @@
     <p>Изготвил: Димитър Русков</p>
     <p>Клас: 11а</p>
 </footer>
+
+<script>
+const sections = document.querySelectorAll('section');
+
+function checkSections() {
+    const triggerBottom = window.innerHeight * 0.85;
+
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+
+        if(sectionTop < triggerBottom) {
+            section.classList.add('visible');
+        }
+    });
+}
+
+window.addEventListener('scroll', checkSections);
+window.addEventListener('load', checkSections);
+</script>
 
 </body>
 </html>
